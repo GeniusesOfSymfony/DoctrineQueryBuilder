@@ -1,0 +1,26 @@
+{
+    "name": "gos/doctrine-query-builder",
+    "description": "Keep your repository healthy !",
+    "keywords": ["Doctrine Query Builder", "Doctrine", "Query", "Builder", "Query Builder"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Johann Saunier",
+            "email": "johann_27@hotmail.fr"
+        }
+    ],
+    "require":
+    {
+        "php": ">=5.3.2",
+        "doctrine/common": "~2.2",
+        "doctrine/orm": "~2.2"
+    },
+    "required-dev" : {
+        "symfony/yaml": "~2.3"
+    },
+    "autoload": {
+        "psr-0": { "Gos\\Component\\DoctrineQueryBuilder\\": "" }
+    },
+    "target-dir": "Gos/Component/DoctrineQueryBuilder"
+}
