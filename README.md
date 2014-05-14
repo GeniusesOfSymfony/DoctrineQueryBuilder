@@ -1,4 +1,4 @@
-Doctrine QueryBuilder Component - QueryBuilder on steroïd
+Doctrine QueryBuilder Component
 ==========================================================
 
 By default Doctrine provide a generic Query Builder, and in each query you need to repopulate it. To avoid to must have rewrite common parts of your builder this component provide a simple way to inject and create a pre populated QueryBuilder according to a specific entity. Avoid DRY, Keep repository healthy, more readable.
