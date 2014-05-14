@@ -1,5 +1,5 @@
 <?php
-namespace Gos\Component\DoctrineQueryBuilder\Builder;
+namespace Gos\Component\DoctrineQueryBuilder;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
@@ -15,19 +15,6 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
      * @var string
      */
     protected $entityName;
-
-    /**
-     * @param EntityManager $em
-     * @param string $entityName
-     */
-    public function __construct(EntityManager $em)
-    {
-        parent::__construct($em);
-
-        if ($this->filters === null) {
-            $this->filters = $this->registerFilters();
-        }
-    }
 
     /**
      * @param $entityName
@@ -48,12 +35,8 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
     /**
      * @param array $groups
      */
-    public function load($groups = null)
+    public function load($groups = 'default')
     {
-        if(null === $groups){
-            $groups = 'default';
-        }
-
         foreach ((array) $groups as $group) {
             $this->configure($group);
         }
@@ -86,16 +69,21 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
      */
     public function applyFilter($filterName, $parameters = array())
     {
-        if (array_key_exists($filterName, $this->filters)) {
-            if (method_exists($this, $this->filters[$filterName])) {
-                $this->{$this->filters[$filterName]}($parameters);
+        if(!is_array($filters = $this->registerFilters())){
+            throw new \Exception(sprintf("ApplyFilter should return array, %s given", gettype($this->registerFilters())));
+        }
+
+
+        if (array_key_exists($filterName, $filters)) {
+            if (method_exists($this, $filters[$filterName])) {
+                $this->{$filters[$filterName]}($parameters);
 
                 return $this;
             } else {
-                throw new \Exception(sprintf("Method %s not exist in class %s", $this->filters[$filterName], get_class($this)));
+                throw new \Exception(sprintf("Method %s not exist in class %s", $filters[$filterName], get_class($this)));
             }
         } else {
-            throw new \Exception(sprintf("Filter %s not exist in %s", $filterName, join(', ', array_keys($this->filters))));
+            throw new \Exception(sprintf("Filter %s not exist in %s", $filterName, join(', ', array_keys($filters))));
         }
     }
 

@@ -1,15 +1,17 @@
 Doctrine QueryBuilder Component
 ==========================================================
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88/mini.png)](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88)
+
 By default Doctrine provide a generic Query Builder, and in each query you need to repopulate it. To avoid to must have rewrite common parts of your builder this component provide a simple way to inject and create a pre populated QueryBuilder according to a specific entity. Avoid DRY, Keep repository healthy, more readable.
 
-Create your own QueryBuilder dedicated to your entity
+Create your own QueryBuilder according to your entity
 -----------------------------------------------------
 
-Simply extends your class from `Gos\Component\DoctrineQueryBuilder\Builder\QueryBuilder;`
+Simply extends your class from `Gos\Component\DoctrineQueryBuilder\QueryBuilder`
 
 ```php
-use Gos\Component\DoctrineQueryBuilder\Builder\QueryBuilder;
+use Gos\Component\DoctrineQueryBuilder\QueryBuilder;
 
 class MyQueryBuilder extends QueryBuilder
 {
@@ -78,7 +80,7 @@ We often have filters that return so recurrent in many functions of our reposito
 To register your own filter :
 
 ```php
-use Gos\Component\DoctrineQueryBuilder\Builder\QueryBuilder;
+use Gos\Component\DoctrineQueryBuilder\QueryBuilder;
 
 class PageQueryBuilder extends QueryBuilder
 {
@@ -92,7 +94,7 @@ class PageQueryBuilder extends QueryBuilder
     }
 
     //$parameters come from your repository, if you want add some.
-    public function byName(array $parameters)
+    protected function byName(array $parameters)
     {
         $this->setDefaultTable('pag', $parameters);
         $this->andWhere($parameters['table'].'.name = :name');
@@ -173,6 +175,8 @@ Concret example
 ---------------
 
 ```php
+use Gos\Component\DoctrineQueryBuilder\QueryBuilder;
+
 class PageQueryBuilder extends QueryBuilder
 {
     const ENUMERABLE_QUERY_BUILDER = 'enumerable';
@@ -208,28 +212,28 @@ class PageQueryBuilder extends QueryBuilder
         }
     }
 
-    public function onlyActive(array $parameters)
+    protected function onlyActive(array $parameters)
     {
         $this->setDefaultTable('pag', $parameters);
         $this->andWhere($parameters['table'] . '.status = :active');
         $this->setParameter('active', ActiveStateInterface::ACTIVE_STATE);
     }
 
-    public function onlyInactive(array $parameters)
+    protected function onlyInactive(array $parameters)
     {
         $this->setDefaultTable('pag', $parameters);
         $this->andWhere($parameters['table'] . '.status = :inactive');
         $this->setParameter('inactive', ActiveStateInterface::INACTIVE_STATE);
     }
 
-    public function bySlug(array $parameters)
+    protected function bySlug(array $parameters)
     {
         $this->setDefaultTable('pag_pgc', $parameters);
         $this->andWhere($parameters['table'].'.slug = :slug');
         $this->setParameter('slug', $parameters['slugs']);
     }
 
-    public function byName(array $parameters)
+    protected function byName(array $parameters)
     {
         $this->setDefaultTable('pag', $parameters);
         $this->andWhere($parameters['table'].'.name = :name');

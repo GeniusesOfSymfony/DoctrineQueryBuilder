@@ -1,5 +1,5 @@
 <?php
-namespace Gos\Component\DoctrineQueryBuilder\Builder;
+namespace Gos\Component\DoctrineQueryBuilder;
 
 interface QueryBuilderInterface
 {
