@@ -16,9 +16,6 @@
         "doctrine/common": "~2.2",
         "doctrine/orm": "~2.2"
     },
-    "required-dev" : {
-        "symfony/yaml": "~2.3"
-    },
     "autoload": {
         "psr-0": { "Gos\\Component\\DoctrineQueryBuilder\\": "" }
     },
