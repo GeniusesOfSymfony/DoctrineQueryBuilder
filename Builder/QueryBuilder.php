@@ -48,8 +48,12 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
     /**
      * @param array $groups
      */
-    public function load($groups)
+    public function load($groups = null)
     {
+        if(null === $groups){
+            $groups = 'default';
+        }
+
         foreach ((array) $groups as $group) {
             $this->configure($group);
         }
@@ -57,6 +61,9 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
+    /**
+     * @param $group
+     */
     protected function configure($group)
     {
 
