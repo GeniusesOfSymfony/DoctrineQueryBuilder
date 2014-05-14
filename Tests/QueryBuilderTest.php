@@ -3,6 +3,8 @@ namespace Gos\Component\DoctrineQueryBuilder\Tests\Builder;
 
 use Doctrine\ORM\EntityManager;
 use Gos\Component\DoctrineQueryBuilder\QueryBuilder;
+use Gos\Component\DoctrineQueryBuilder\Tests\Fixture\BarQueryBuilder;
+use Gos\Component\DoctrineQueryBuilder\Tests\Fixture\FooQueryBuilder;
 
 class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -101,11 +103,14 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testUserFilter()
     {
         $qb = $this->getMock('Gos\Component\DoctrineQueryBuilder\QueryBuilder',
-            array('registerFilters'),
+            array('registerFilters', 'onlyActive'),
             array($this->getEntityManager())
         );
 
         $qb->expects($this->any())->method('registerFilters')->will($this->returnValue(array('active' => 'onlyActive')));
+        $qb->expects($this->any())->method('onlyActive');
+
+        $qb->applyFilter('active');
     }
 
     public function testSetDefaultTable()
@@ -130,5 +135,56 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
         $method->invokeArgs(new QueryBuilder($this->getEntityManager()), array('bar', &$parameters));
 
         $this->assertEquals(array('table' => 'foo'), $parameters);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testFailFunctional()
+    {
+        $qb = new FooQueryBuilder($this->getEntityManager());
+        $qb->setEntityName('Foo\Bar\Baz');
+        $qb->applyFilter('bar', array('foo' => 'baz'));
+        $qb->load();
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testFailWithFilterFunction()
+    {
+        $qb = new FooQueryBuilder($this->getEntityManager());
+        $qb->setEntityName('Foo\Bar\Baz');
+        $qb->applyFilter('bug', array('foo' => 'baz'));
+        $qb->load();
+    }
+
+    public function testPassFunctional()
+    {
+        $qb = new FooQueryBuilder($this->getEntityManager());
+        $qb->setEntityName('Foo\Bar\Baz');
+        $qb->load();
+
+        $qb->applyFilter('foo', array('foo' => 'baz'));
+
+        $this->assertEquals($qb->getDQL(), 'SELECT tbl FROM Foo\Bar\Baz tbl WHERE tbl.field = :thing');
+    }
+
+    public function testFunctionalWithoutFilter()
+    {
+        $qb = new BarQueryBuilder($this->getEntityManager());
+        $qb->setEntityName('Foo\Bar\Baz');
+        $qb->load();
+
+        $this->assertEquals($qb->getDQL(), 'SELECT tbl FROM Foo\Bar\Baz tbl');
+    }
+
+    public function testFunctionalChainGroup()
+    {
+        $qb = new FooQueryBuilder($this->getEntityManager());
+        $qb->setEntityName('Foo\Bar\Baz');
+        $qb->load(array('default', 'test'));
+
+        $this->assertEquals($qb->getDQL(), 'SELECT tbl FROM Foo\Bar\Baz tbl ORDER BY tlb.field ASC');
     }
 } 

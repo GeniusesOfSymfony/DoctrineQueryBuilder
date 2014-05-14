@@ -7,11 +7,6 @@ use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
 {
     /**
-     * @var array|null
-     */
-    private $filters = null;
-
-    /**
      * @var string
      */
     protected $entityName;
@@ -72,7 +67,6 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
         if(!is_array($filters = $this->registerFilters())){
             throw new \Exception(sprintf("ApplyFilter should return array, %s given", gettype($this->registerFilters())));
         }
-
 
         if (array_key_exists($filterName, $filters)) {
             if (method_exists($this, $filters[$filterName])) {
