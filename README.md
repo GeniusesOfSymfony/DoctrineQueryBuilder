@@ -1,9 +1,7 @@
 Doctrine QueryBuilder Component
 ==========================================================
 
-[![Build Status](https://travis-ci.org/GeniusesOfSymfony/DoctrineQueryBuilder.svg?branch=master)](https://travis-ci.org/GeniusesOfSymfony/DoctrineQueryBuilder) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88/mini.png)](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88)
-
-**This project is currently in developpement, please take care.**
+[![Build Status](https://travis-ci.org/GeniusesOfSymfony/DoctrineQueryBuilder.svg?branch=master)](https://travis-ci.org/GeniusesOfSymfony/DoctrineQueryBuilder) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88/mini.png)](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88) 
 
 By default Doctrine provide a generic Query Builder, and in each query you need to repopulate it. To avoid to must have rewrite common parts of your builder this component provide a simple way to inject and create a pre populated QueryBuilder according to a specific entity. Avoid DRY, Keep repository healthy, more readable.
 
@@ -173,6 +171,33 @@ class MyRepository extends EntityRepository
 }
 ```
 
+You also can use our repository :
+
+```php
+use Gos\Component\DoctrineQueryBuilder\GosEntityRepository
+
+class MyRepository extends EntityRepository
+{
+
+}
+```
+
+**In the case where you extend from vendor repository and who is extend from EntityRepository, just override the `createQueryBuilder` method like above.**
+
+####Symfony2 Integration####
+
+In the way automatically load our repository simply add the following config in your `app/config.yml`
+
+```yaml
+doctrine:
+    orm:
+        default_repository_class: Gos\Component\DoctrineQueryBuilder\GosEntityRepository
+```
+
+
+
+
+
 Concret example
 ---------------
 
@@ -254,8 +279,4 @@ PHPUnit 3.5 or newer together with Mock_Object package is required. To setup and
 * run: composer install --dev
 * run: phpunit
 
-License
----------
-
-The project is under MIT lisence, for more information see the LICENSE file inside the project
 
