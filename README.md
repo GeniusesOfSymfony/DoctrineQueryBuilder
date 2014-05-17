@@ -64,11 +64,11 @@ public function configure($group)
 The QueryBuilder Component have the ability to traverse many groups. With this feature you can split several group in order to reuse inside other without repeat yourself.
 
 ```php
-    public function findSomething()
-    {
-    	$qb = $this->createQueryBuilder(array('join_group', 'filtering_group', 'ordering_group'));
-        //Your logic
-    }
+public function findSomething()
+{
+    $qb = $this->createQueryBuilder(array('join_group', 'filtering_group', 'ordering_group'));
+    //Your logic
+}
 ```
 
 Register filter on the QueryBuilder
@@ -183,12 +183,6 @@ class MyRepository extends GosEntityRepository
 Our repository implement : `Gos\Component\DoctrineQueryBuilder\QueryBuildableInterface`
 
 **In the case where you extend from vendor repository and who is extend from EntityRepository, just override the `createQueryBuilder` method like above.**
-
-**Note :** GosEntityRepository allow to switch on the fly the QueryBuilder.
-
-```php
-public function createQueryBuilder($group = 'default', QueryBuilderInterface $qb = null)
-```
 
 ####Symfony2 Integration####
 
