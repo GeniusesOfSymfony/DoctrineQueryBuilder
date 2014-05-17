@@ -30,7 +30,7 @@ class GosEntityRepository extends DoctrineEntityRepository implements QueryBuild
         $qb->setEntityName($this->getEntityName());
         $qb->load($group);
 
-        return $qb; 
+        return $qb;
     }
 
     /**
