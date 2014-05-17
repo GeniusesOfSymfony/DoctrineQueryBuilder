@@ -1,5 +1,5 @@
 <?php
-namespace Gos\Component\DoctrineQueryBuilder\Tests\Builder;
+namespace Gos\Component\DoctrineQueryBuilder\Tests;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;

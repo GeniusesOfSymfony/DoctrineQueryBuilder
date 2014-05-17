@@ -1,10 +1,7 @@
 <?php
-namespace Gos\Component\DoctrineQueryBuilder\Tests\Builder;
+namespace Gos\Component\DoctrineQueryBuilder\Tests;
 
-use Doctrine\ORM\EntityManager;
 use Gos\Component\DoctrineQueryBuilder\QueryBuilder;
-use Gos\Component\DoctrineQueryBuilder\Tests\Fixture\BarQueryBuilder;
-use Gos\Component\DoctrineQueryBuilder\Tests\Fixture\FooQueryBuilder;
 
 class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -151,6 +148,4 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array('table' => 'foo'), $parameters);
     }
-
-
-} 
+}

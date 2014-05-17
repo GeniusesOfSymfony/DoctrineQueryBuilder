@@ -17,4 +17,4 @@ interface QueryBuildableInterface
      * @return QueryBuilderInterface
      */
     public function createQueryBuilder($group = 'default', QueryBuilderInterface $qb = null);
-} 
+}

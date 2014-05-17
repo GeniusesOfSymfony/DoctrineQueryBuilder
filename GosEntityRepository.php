@@ -18,8 +18,8 @@ class GosEntityRepository extends DoctrineEntityRepository implements QueryBuild
      */
     public function createQueryBuilder($group = 'default', QueryBuilderInterface $qb = null)
     {
-        if(null === $qb){
-            if(null === $this->queryBuilderClass){
+        if (null === $qb) {
+            if (null === $this->queryBuilderClass) {
                 $this->queryBuilderClass = $this->getQueryBuilderClass($this->getEntityName());
             }
 

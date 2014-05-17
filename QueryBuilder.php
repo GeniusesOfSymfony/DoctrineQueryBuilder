@@ -1,7 +1,6 @@
 <?php
 namespace Gos\Component\DoctrineQueryBuilder;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 
 class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
@@ -64,7 +63,7 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
      */
     public function applyFilter($filterName, $parameters = array())
     {
-        if(!is_array($filters = $this->registerFilters())){
+        if (!is_array($filters = $this->registerFilters())) {
             throw new \Exception(sprintf("ApplyFilter should return array, %s given", gettype($this->registerFilters())));
         }
 

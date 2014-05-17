@@ -16,6 +16,10 @@
         "doctrine/common": "~2.2",
         "doctrine/orm": "~2.2"
     },
+    "require-dev":
+    {
+
+    },
     "autoload": {
         "psr-0": { "Gos\\Component\\DoctrineQueryBuilder\\": "" }
     },
