@@ -64,11 +64,11 @@ public function configure($group)
 The QueryBuilder Component have the ability to traverse many groups. With this feature you can split several group in order to reuse inside other without repeat yourself.
 
 ```php
-public function findSomething()
-{
-    $qb = $this->createQueryBuilder(array('join_group', 'filtering_group', 'ordering_group'));
-    //Your logic
-}
+    public function findSomething()
+    {
+    	$qb = $this->createQueryBuilder(array('join_group', 'filtering_group', 'ordering_group'));
+        //Your logic
+    }
 ```
 
 Register filter on the QueryBuilder
@@ -142,7 +142,7 @@ public function findMenuNode(
 Use your own QueryBuilder inside repository
 --------------------------------------------
 
-Add the following method to override the createBuilder of the `EntityRepository` provided by doctrine.
+Add the following method to load your QueryBuilder (**NOTE:** You can also override createQueryBuilder method, but I would not recommend).
 
 ```php
 use Doctrine\ORM\EntityRepository;
@@ -152,7 +152,7 @@ class MyRepository extends EntityRepository
 	/**
     * Create our pre populated query builder
     **/
-    public function createQueryBuilder($group = null)
+    public function loadQueryBuilder($group = null)
     {
         $qb = new LocaleQueryBuilder($this->getEntityManager());
         $qb->setEntityName($this->getEntityName());
@@ -183,6 +183,12 @@ class MyRepository extends GosEntityRepository
 Our repository implement : `Gos\Component\DoctrineQueryBuilder\QueryBuildableInterface`
 
 **In the case where you extend from vendor repository and who is extend from EntityRepository, just override the `createQueryBuilder` method like above.**
+
+**Note :** GosEntityRepository loadQueryBuilder method allow to switch on the fly the QueryBuilder.
+
+```php
+public function loadQueryBuilder($group = 'default', QueryBuilderInterface $qb = null)
+```
 
 ####Symfony2 Integration####
 

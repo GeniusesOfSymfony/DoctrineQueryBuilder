@@ -12,13 +12,14 @@ class GosEntityRepository extends DoctrineEntityRepository implements QueryBuild
     protected $queryBuilderClass;
 
     /**
-     * @param string $group
+     * @param null                  $group
+     * @param QueryBuilderInterface $qb
      *
      * @return QueryBuilderInterface
      */
-    public function createQueryBuilder($group = 'default')
+    public function loadQueryBuilder($group = 'default', QueryBuilderInterface $qb = null)
     {
-        if (null === $this->queryBuilderClass) {
+        if (null === $qb) {
             if (null === $this->queryBuilderClass) {
                 $this->queryBuilderClass = $this->getQueryBuilderClass($this->getEntityName());
             }
@@ -29,7 +30,7 @@ class GosEntityRepository extends DoctrineEntityRepository implements QueryBuild
         $qb->setEntityName($this->getEntityName());
         $qb->load($group);
 
-        return $qb;
+        return $qb; 
     }
 
     /**
