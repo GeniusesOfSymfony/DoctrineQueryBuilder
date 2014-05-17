@@ -1,7 +1,7 @@
 Doctrine QueryBuilder Component
 ==========================================================
 
-[![Build Status](https://travis-ci.org/GeniusesOfSymfony/DoctrineQueryBuilder.svg?branch=master)](https://travis-ci.org/GeniusesOfSymfony/DoctrineQueryBuilder) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88/mini.png)](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88) 
+[![Build Status](https://travis-ci.org/GeniusesOfSymfony/DoctrineQueryBuilder.svg?branch=master)](https://travis-ci.org/GeniusesOfSymfony/DoctrineQueryBuilder) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/GeniusesOfSymfony/DoctrineQueryBuilder/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88/mini.png)](https://insight.sensiolabs.com/projects/35eaee5a-c0e4-427d-aa8c-fd20d8417b88)
 
 By default Doctrine provide a generic Query Builder, and in each query you need to repopulate it. To avoid to must have rewrite common parts of your builder this component provide a simple way to inject and create a pre populated QueryBuilder according to a specific entity. Avoid DRY, Keep repository healthy, more readable.
 
@@ -33,31 +33,30 @@ class MyQueryBuilder extends QueryBuilder implements QueryBuilderInterface
 ####Create custom group####
 
 ```php
-    public function configure($group)
-    {
-		if ($group === 'my_group') {
-            //Awesome stuff, but never return $qb inside a condition or switch case, that will deny
-            //the multi groups populating
-        }
-
-        return $qb;
+public function configure($group)
+{
+    if ($group === 'my_group') {
+        //Awesome stuff, but never return $qb inside a condition or switch case, that will deny
+        //the multi groups populating
     }
 
+    return $qb;
+}
 ```
 
 The group name is not mandatory when you call the createQueryBuilder, in this case `$group = default`
 
 ```php
-    public function configure($group)
-    {
-		if($group === 'my_group'){
-        	//Awesome stuff
-        }
-
-        if($group === 'default'){
-            //In the case you not mentioned group name
-        }
+public function configure($group)
+{
+    if($group === 'my_group'){
+        //Awesome stuff
     }
+
+    if($group === 'default'){
+        //In the case you not mentioned group name
+    }
+}
 ```
 
 ####Multiple group####
@@ -170,19 +169,26 @@ class MyRepository extends EntityRepository
     }
 }
 ```
-
 You also can use our repository :
 
 ```php
 use Gos\Component\DoctrineQueryBuilder\GosEntityRepository
 
-class MyRepository extends EntityRepository
+class MyRepository extends GosEntityRepository
 {
 
 }
 ```
 
+Our repository implement : `Gos\Component\DoctrineQueryBuilder\QueryBuildableInterface`
+
 **In the case where you extend from vendor repository and who is extend from EntityRepository, just override the `createQueryBuilder` method like above.**
+
+**Note :** GosEntityRepository allow to switch on the fly the QueryBuilder.
+
+```php
+public function createQueryBuilder($group = 'default', QueryBuilderInterface $qb = null)
+```
 
 ####Symfony2 Integration####
 
@@ -193,10 +199,6 @@ doctrine:
     orm:
         default_repository_class: Gos\Component\DoctrineQueryBuilder\GosEntityRepository
 ```
-
-
-
-
 
 Concret example
 ---------------
