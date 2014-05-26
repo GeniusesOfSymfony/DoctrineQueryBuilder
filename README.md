@@ -5,6 +5,21 @@ Doctrine QueryBuilder Component
 
 By default Doctrine provide a generic Query Builder, and in each query you need to repopulate it. To avoid to must have rewrite common parts of your builder this component provide a simple way to inject and create a pre populated QueryBuilder according to a specific entity. Avoid DRY, Keep repository healthy, more readable.
 
+Installation
+-------------
+
+You need to have [composer](https://getcomposer.org/) to install dependencies.
+
+```json
+{
+    "require": {
+        "gos/doctrine-query-builder": "{last stable version}"
+    }
+}
+```
+
+Then `composer update`
+
 Create your own QueryBuilder according to your entity
 -----------------------------------------------------
 
