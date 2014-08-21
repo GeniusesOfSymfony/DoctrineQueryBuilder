@@ -1,7 +1,7 @@
 <?php
 namespace Gos\Component\DoctrineQueryBuilder;
 
-use Doctrine\ORM\EntityRepository AS DoctrineEntityRepository;
+use Doctrine\ORM\EntityRepository as DoctrineEntityRepository;
 
 class GosEntityRepository extends DoctrineEntityRepository implements QueryBuildableInterface
 {
@@ -12,7 +12,7 @@ class GosEntityRepository extends DoctrineEntityRepository implements QueryBuild
     protected $queryBuilderClass;
 
     /**
-     * @param null                  $group
+     * @param string|null           $group
      * @param QueryBuilderInterface $qb
      *
      * @return QueryBuilderInterface
@@ -28,6 +28,7 @@ class GosEntityRepository extends DoctrineEntityRepository implements QueryBuild
         }
 
         $qb->setEntityName($this->getEntityName());
+
         $qb->load($group);
 
         return $qb;
@@ -42,12 +43,12 @@ class GosEntityRepository extends DoctrineEntityRepository implements QueryBuild
     {
         $buffer = explode('\\', $entityName);
 
-        $namespaceFragment = array(
+        $namespaceFragment = [
             $buffer[0],
             $buffer[1],
             'QueryBuilder',
             end($buffer).'QueryBuilder'
-        );
+        ];
 
         return implode('\\', $namespaceFragment);
     }

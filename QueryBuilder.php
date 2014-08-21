@@ -11,7 +11,7 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
     protected $entityName;
 
     /**
-     * @param $entityName
+     * @param string $entityName
      */
     public function setEntityName($entityName)
     {
@@ -51,7 +51,7 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
      */
     protected function registerFilters()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -61,7 +61,7 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
      * @return $this
      * @throws \Exception
      */
-    public function applyFilter($filterName, $parameters = array())
+    public function applyFilter($filterName, $parameters = [])
     {
         if (!is_array($filters = $this->registerFilters())) {
             throw new \Exception(sprintf("ApplyFilter should return array, %s given", gettype($this->registerFilters())));
@@ -81,10 +81,10 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
     }
 
     /**
-     * @param       $defaultTable
-     * @param array $parameters
+     * @param string $defaultTable
+     * @param array  $parameters
      */
-    protected function setDefaultTable($defaultTable, array &$parameters = array())
+    protected function setDefaultTable($defaultTable, array &$parameters = [])
     {
         if (!isset($parameters['table'])) {
             $parameters['table'] = $defaultTable;

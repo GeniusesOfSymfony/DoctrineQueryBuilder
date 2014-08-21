@@ -5,10 +5,13 @@ use Gos\Component\DoctrineQueryBuilder\QueryBuilder;
 
 class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
     protected function getEntityManager()
     {
         return $this->getMock('\Doctrine\ORM\EntityManager',
-            array(), array(), '', false)
+            [], [], '', false)
         ;
     }
 
@@ -22,8 +25,8 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testLoadWithoutParameters()
     {
         $qb = $this->getMock('Gos\Component\DoctrineQueryBuilder\QueryBuilder',
-            array('configure'),
-            array($this->getEntityManager())
+            ['configure'],
+            [$this->getEntityManager()]
         );
 
         $qb->expects($this->exactly(1))->method('configure');
@@ -37,8 +40,8 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testLoadWithString()
     {
         $qb = $this->getMock('Gos\Component\DoctrineQueryBuilder\QueryBuilder',
-            array('configure'),
-            array($this->getEntityManager())
+            ['configure'],
+            [$this->getEntityManager()]
         );
 
         $qb->expects($this->exactly(1))->method('configure');
@@ -52,8 +55,8 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testLoadWithArray()
     {
         $qb = $this->getMock('Gos\Component\DoctrineQueryBuilder\QueryBuilder',
-            array('configure'),
-            array($this->getEntityManager())
+            ['configure'],
+            [$this->getEntityManager()]
         );
 
         $qb->expects($this->exactly(3))->method('configure');
@@ -62,7 +65,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
         $qb->expects($this->at(1))->method('configure')->with($this->equalTo('group2'));
         $qb->expects($this->at(2))->method('configure')->with($this->equalTo('group3'));
 
-        $qb = $qb->load(array('group1', 'group2', 'group3'));
+        $qb = $qb->load(['group1', 'group2', 'group3']);
 
         $this->assertInstanceOf('Gos\Component\DoctrineQueryBuilder\QueryBuilderInterface', $qb);
     }
@@ -73,8 +76,8 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testWrongReturnFilters()
     {
         $qb = $this->getMock('Gos\Component\DoctrineQueryBuilder\QueryBuilder',
-            array('registerFilters'),
-            array($this->getEntityManager())
+            ['registerFilters'],
+            [$this->getEntityManager()]
         );
 
         $qb->expects($this->any())->method('registerFilters')->will($this->returnValue(false));
@@ -88,13 +91,13 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testMissingFilterRegistration()
     {
         $qb = $this->getMock('Gos\Component\DoctrineQueryBuilder\QueryBuilder',
-            array('registerFilters'),
-            array($this->getEntityManager())
+            ['registerFilters'],
+            [$this->getEntityManager()]
         );
 
-        $qb->expects($this->any())->method('registerFilters')->will($this->returnValue(array('active' => 'onlyActive')));
+        $qb->expects($this->any())->method('registerFilters')->will($this->returnValue(['active' => 'onlyActive']));
 
-        $qb->applyFilter('wrongFilterName', array('foo' => 'bar'));
+        $qb->applyFilter('wrongFilterName', ['foo' => 'bar']);
     }
 
     /**
@@ -103,11 +106,11 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testMissingMethodFilter()
     {
         $qb = $this->getMock('Gos\Component\DoctrineQueryBuilder\QueryBuilder',
-            array('registerFilters'),
-            array($this->getEntityManager())
+            ['registerFilters'],
+            [$this->getEntityManager()]
         );
 
-        $qb->expects($this->any())->method('registerFilters')->will($this->returnValue(array('active' => 'onlyActive')));
+        $qb->expects($this->any())->method('registerFilters')->will($this->returnValue(['active' => 'onlyActive']));
 
         $qb->applyFilter('active');
     }
@@ -115,11 +118,11 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testFilter()
     {
         $qb = $this->getMock('Gos\Component\DoctrineQueryBuilder\QueryBuilder',
-            array('registerFilters', 'onlyActive'),
-            array($this->getEntityManager())
+            ['registerFilters', 'onlyActive'],
+            [$this->getEntityManager()]
         );
 
-        $qb->expects($this->any())->method('registerFilters')->will($this->returnValue(array('active' => 'onlyActive')));
+        $qb->expects($this->any())->method('registerFilters')->will($this->returnValue(['active' => 'onlyActive']));
         $qb->expects($this->any())->method('onlyActive');
 
         $qb->applyFilter('active');
@@ -131,10 +134,10 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
         $method = $class->getMethod('setDefaultTable');
         $method->setAccessible(true);
 
-        $parameters = array();
-        $method->invokeArgs(new QueryBuilder($this->getEntityManager()), array('foo', &$parameters));
+        $parameters = [];
+        $method->invokeArgs(new QueryBuilder($this->getEntityManager()), ['foo', &$parameters]);
 
-        $this->assertEquals(array('table' => 'foo'), $parameters);
+        $this->assertEquals(['table' => 'foo'], $parameters);
     }
 
     public function testSetNoDefaultTable()
@@ -143,9 +146,9 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
         $method = $class->getMethod('setDefaultTable');
         $method->setAccessible(true);
 
-        $parameters = array('table' => 'foo');
-        $method->invokeArgs(new QueryBuilder($this->getEntityManager()), array('bar', &$parameters));
+        $parameters = ['table' => 'foo'];
+        $method->invokeArgs(new QueryBuilder($this->getEntityManager()), ['bar', &$parameters]);
 
-        $this->assertEquals(array('table' => 'foo'), $parameters);
+        $this->assertEquals(['table' => 'foo'], $parameters);
     }
 }

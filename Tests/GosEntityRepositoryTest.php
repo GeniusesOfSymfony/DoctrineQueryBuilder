@@ -8,9 +8,12 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 
 class GosEntityRepositoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @param string $entityName
+     */
     protected function getRepository($entityName)
     {
-        $em = $this->getMock('Doctrine\ORM\EntityManager', array('getClassMetadata'), array(), '', false);
+        $em = $this->getMock('Doctrine\ORM\EntityManager', ['getClassMetadata'], [], '', false);
         $classMetaData = new ClassMetadata($entityName);
 
         return new GosEntityRepository($em, $classMetaData);
