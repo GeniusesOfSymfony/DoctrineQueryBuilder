@@ -16,12 +16,13 @@
         "doctrine/common": "~2.2",
         "doctrine/orm": "~2.2"
     },
-    "require-dev":
-    {
-
-    },
     "autoload": {
         "psr-0": { "Gos\\Component\\DoctrineQueryBuilder\\": "" }
     },
-    "target-dir": "Gos/Component/DoctrineQueryBuilder"
+    "target-dir": "Gos/Component/DoctrineQueryBuilder",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }
