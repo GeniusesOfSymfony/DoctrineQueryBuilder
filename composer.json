@@ -17,9 +17,11 @@
         "doctrine/orm": "~2.2"
     },
     "autoload": {
-        "psr-0": { "Gos\\Component\\DoctrineQueryBuilder\\": "" }
+        "psr-4": { "Gos\\Component\\DoctrineQueryBuilder\\": "" }
     },
-    "target-dir": "Gos/Component/DoctrineQueryBuilder",
+    "autoload-dev": {
+        "psr-4": { "Gos\\Component\\DoctrineQueryBuilder\\Tests\\": "/Tests" }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
