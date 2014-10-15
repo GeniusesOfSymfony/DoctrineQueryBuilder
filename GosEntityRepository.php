@@ -43,13 +43,10 @@ class GosEntityRepository extends DoctrineEntityRepository implements QueryBuild
     {
         $buffer = explode('\\', $entityName);
 
-        $namespaceFragment = [
-            $buffer[0],
-            $buffer[1],
-            'QueryBuilder',
-            end($buffer).'QueryBuilder'
-        ];
+        $count = count($buffer);
+        $buffer[$count-2] = 'QueryBuilder';
+        $buffer[$count-1] =  end($buffer).'QueryBuilder';
 
-        return implode('\\', $namespaceFragment);
+        return implode('\\', $buffer);
     }
 }
