@@ -43,7 +43,6 @@ class QueryBuilder extends DoctrineQueryBuilder implements QueryBuilderInterface
      */
     protected function configure($group)
     {
-
     }
 
     /**

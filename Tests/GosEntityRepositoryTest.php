@@ -2,9 +2,9 @@
 namespace Gos\Component\DoctrineQueryBuilder\Tests;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Gos\Component\DoctrineQueryBuilder\GosEntityRepository;
-use Doctrine\ORM\Mapping\ClassMetadata;
 
 class GosEntityRepositoryTest extends \PHPUnit_Framework_TestCase
 {

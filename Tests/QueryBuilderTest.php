@@ -11,8 +11,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     protected function getEntityManager()
     {
         return $this->getMock('\Doctrine\ORM\EntityManager',
-            [], [], '', false)
-        ;
+            [], [], '', false);
     }
 
     public function testGetEntityName()
